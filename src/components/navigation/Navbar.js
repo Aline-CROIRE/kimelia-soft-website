@@ -1,72 +1,93 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Image from "next/image";
 
 const Nav = styled.nav`
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
-  background: #000000;
-  padding: 35px 8%;
+  background: #FFFFFF;
+  padding: ${(props) => (props.$scrolled ? "15px 8%" : "35px 8%")};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid #D4AF37;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 `;
 
-const LogoSection = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Brand = styled.span`
-  font-family: var(--font-montserrat);
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: #FFFFFF;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-`;
-
-const SubBrand = styled.span`
-  font-family: var(--font-montserrat);
-  font-size: 0.65rem;
-  color: #D4AF37;
-  text-transform: uppercase;
-  letter-spacing: 0.5em;
-  margin-top: 5px;
+const LogoWrapper = styled.div`
+  position: relative;
+  width: 220px;
+  height: 60px;
+  cursor: pointer;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1));
 `;
 
 const Links = styled.div`
   display: flex;
   gap: 50px;
   align-items: center;
+  @media (max-width: 1024px) { display: none; }
 `;
 
-const Link = styled.a`
-  font-family: var(--font-montserrat);
+const NavLink = styled.a`
   font-size: 0.75rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.3em;
+  color: #000000;
+  opacity: 0.4;
   text-decoration: none;
-  &:hover { color: #D4AF37; }
+  transition: 0.3s ease;
+  &:hover { opacity: 1; color: #D4AF37; }
+`;
+
+const PillButton = styled.button`
+  padding: 12px 30px;
+  font-size: 0.65rem;
+`;
+
+const Spine = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: ${(props) => (props.$scrolled ? "2px" : "4px")};
+  background: linear-gradient(90deg, #D4AF37, #FFD700, #B8860B);
+  transition: all 0.6s ease;
 `;
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <Nav>
-      <LogoSection>
-        <Brand>Kimelia Soft</Brand>
-        <SubBrand>Technology & Innovation</SubBrand>
-      </LogoSection>
+    <Nav $scrolled={scrolled}>
+      <LogoWrapper>
+        <Image 
+          src="/logo.png" 
+          alt="Kimelia Soft" 
+          fill 
+          sizes="220px" /* Performance Fix: Tells browser exactly how large the logo is */
+          style={{ objectFit: 'contain' }} 
+          priority 
+        />
+      </LogoWrapper>
       <Links>
-        <Link href="#products">Products</Link>
-        <Link href="#studio">Studio</Link>
-        <Link href="#vision">Vision</Link>
+        <NavLink href="#studio">Studio</NavLink>
+        <NavLink href="#innovations">Innovations</NavLink>
+        <NavLink href="#mission">Mission</NavLink>
+        <PillButton className="metallic-gold-pill">Get in touch</PillButton>
       </Links>
+      <Spine $scrolled={scrolled} />
     </Nav>
   );
 }
