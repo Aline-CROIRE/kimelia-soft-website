@@ -10,84 +10,82 @@ const Nav = styled.nav`
   width: 100%;
   z-index: 1000;
   background: #FFFFFF;
-  padding: ${(props) => (props.$scrolled ? "15px 8%" : "35px 8%")};
+  padding: ${props => props.$scrolled ? "10px 6%" : "20px 6%"};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 `;
 
-const LogoWrapper = styled.div`
+const LogoBox = styled.div`
   position: relative;
-  width: 220px;
-  height: 60px;
+  width: 170px;
+  height: 40px;
   cursor: pointer;
-  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1));
 `;
 
-const Links = styled.div`
+const LinkGroup = styled.div`
   display: flex;
-  gap: 50px;
+  gap: 35px;
   align-items: center;
   @media (max-width: 1024px) { display: none; }
 `;
 
-const NavLink = styled.a`
-  font-size: 0.75rem;
+const Item = styled.a`
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.3em;
   color: #000000;
-  opacity: 0.4;
+  opacity: 0.5;
   text-decoration: none;
   transition: 0.3s ease;
   &:hover { opacity: 1; color: #D4AF37; }
 `;
 
-const PillButton = styled.button`
-  padding: 12px 30px;
-  font-size: 0.65rem;
-`;
-
-const Spine = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: ${(props) => (props.$scrolled ? "2px" : "4px")};
-  background: linear-gradient(90deg, #D4AF37, #FFD700, #B8860B);
-  transition: all 0.6s ease;
+const CompactPill = styled.button`
+  padding: 10px 25px;
+  font-size: 0.6rem;
 `;
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
+    const handleScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <Nav $scrolled={scrolled}>
-      <LogoWrapper>
+      <LogoBox>
         <Image 
           src="/logo.png" 
           alt="Kimelia Soft" 
           fill 
-          sizes="220px" /* Performance Fix: Tells browser exactly how large the logo is */
           style={{ objectFit: 'contain' }} 
           priority 
+          sizes="170px"
         />
-      </LogoWrapper>
-      <Links>
-        <NavLink href="#studio">Studio</NavLink>
-        <NavLink href="#innovations">Innovations</NavLink>
-        <NavLink href="#mission">Mission</NavLink>
-        <PillButton className="metallic-gold-pill">Get in touch</PillButton>
-      </Links>
-      <Spine $scrolled={scrolled} />
+      </LogoBox>
+      
+      <LinkGroup>
+        <Item href="#innovations">Innovation</Item>
+        <Item href="#studio">Studio</Item>
+        <Item href="#vision">Vision</Item>
+        <CompactPill className="metallic-gold-pill">Partner</CompactPill>
+      </LinkGroup>
+
+      <div style={{ 
+        position: 'absolute', 
+        bottom: 0, 
+        left: 0, 
+        width: '100%', 
+        height: '2px', 
+        background: 'linear-gradient(90deg, #8B6B18, #D4AF37, #8B6B18)' 
+      }} />
     </Nav>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Cpu, Layers, Globe, Zap } from "lucide-react";
 
@@ -11,113 +12,134 @@ const HeroWrapper = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 200px 8% 100px;
+  padding: 180px 8% 100px;
   background: #FFFFFF;
   overflow: hidden;
 `;
 
-const BackgroundDepth = styled.div`
+const BackgroundLayer = styled.div`
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 `;
 
-const AmbientGlow = styled.div`
+const GlobeContainer = styled.div`
   position: absolute;
-  width: 60vw;
-  height: 60vw;
-  top: -10%;
-  right: -10%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
-  filter: blur(100px);
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.6;
 `;
 
-const FloatingPane = styled(motion.div)`
-  position: absolute;
-  border: 1px solid rgba(212, 175, 55, 0.1);
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(212,175,55,0.02) 100%);
-  backdrop-filter: blur(5px);
-  z-index: 1;
+const RotatingWorld = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: globeRotate 35s linear infinite;
 `;
 
-const MainContent = styled.div`
+const Ring = styled.div`
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  border: 2px solid rgba(212, 175, 55, 0.5);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+`;
+
+const GlowingNode = styled.div`
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #D4AF37;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #D4AF37;
+  transform: translate(-50%, -50%);
+`;
+
+const ContentStack = styled.div`
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 `;
 
-const TitleBadge = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 40px;
-  span {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8em;
-    color: #D4AF37;
-  }
+const BrandSection = styled.div`
+  margin-bottom: 80px;
 `;
 
-const HeroHeading = styled.h1`
-  font-size: clamp(3.5rem, 12vw, 10.5rem);
+const BrandName = styled.h1`
+  font-size: clamp(3.5rem, 12vw, 11rem);
   font-weight: 700;
   line-height: 0.8;
   letter-spacing: -0.06em;
   text-transform: uppercase;
   color: #000000;
-  margin-bottom: 30px;
 `;
 
 const Shimmer = styled.span`
-  background: linear-gradient(90deg, #B8860B, #FFD700, #FFFFFF, #FFD700, #B8860B);
+  background: linear-gradient(90deg, #8B6B18, #D4AF37, #FFFFFF, #D4AF37, #8B6B18);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 8s linear infinite;
 `;
 
-const ContentGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 100px;
-  text-align: left;
-  margin-top: 100px;
-  border-top: 1px solid rgba(0,0,0,0.1);
-  padding-top: 80px;
-  @media (max-width: 1024px) { grid-template-columns: 1fr; gap: 60px; text-align: center; }
+const InstitutionalDivider = styled.div`
+  width: 100%;
+  height: 2px;
+  background: rgba(0,0,0,0.1);
+  margin-bottom: 50px;
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 100%;
+    background: #D4AF37;
+  }
 `;
 
-const MissionStatement = styled.p`
+const EditorialMission = styled.p`
   font-family: var(--font-lora);
-  font-style: italic;
-  font-size: 2.5rem;
-  line-height: 1.1;
+  font-style: italic; /* Applied Italic */
+  font-size: clamp(1.2rem, 3vw, 2.2rem); /* Reduced Size */
+  line-height: 1.3;
   color: #000000;
-  @media (max-width: 768px) { font-size: 1.8rem; }
-`;
-
-const SubText = styled.p`
-  font-size: 1.15rem;
-  color: rgba(0,0,0,0.5);
-  line-height: 1.8;
+  max-width: 850px;
   margin-bottom: 40px;
+  opacity: 0.9;
 `;
 
-const ServiceGrid = styled.div`
+const SubDescription = styled.p`
+  font-size: 1.1rem;
+  color: rgba(0,0,0,0.4);
+  line-height: 1.7;
+  max-width: 650px;
+  margin-bottom: 60px;
+`;
+
+const ServiceRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  @media (max-width: 1024px) { justify-items: center; }
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  width: 100%;
+  @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
 `;
 
-const Service = styled.div`
+const ServiceItem = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 15px;
   font-size: 0.7rem;
   font-weight: 700;
@@ -126,89 +148,69 @@ const Service = styled.div`
   color: #000000;
 `;
 
-const HeroCTA = styled.button`
-  padding: 24px 55px;
-  font-size: 0.8rem;
-  margin-top: 50px;
-`;
-
 export default function Hero() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const globeSystem = [
+    { id: 1, size: 600, top: '-10%', left: '-5%', speed: '30s' },
+    { id: 2, size: 450, top: '20%', right: '-10%', speed: '45s' },
+    { id: 3, size: 350, bottom: '-5%', left: '10%', speed: '25s' },
+  ];
+
   return (
     <HeroWrapper>
-      <BackgroundDepth>
-        <AmbientGlow />
-        {[...Array(4)].map((_, i) => (
-          <FloatingPane
-            key={i}
-            initial={{ opacity: 0, rotate: 0 }}
-            animate={{ 
-              opacity: [0.1, 0.3, 0.1], 
-              y: [0, -80, 0], 
-              rotate: [0, 10, 0] 
-            }}
-            transition={{ duration: 12 + i * 2, repeat: Infinity, ease: "easeInOut" }}
-            style={{
-              width: 150 + i * 100,
-              height: 150 + i * 100,
-              top: `${15 + i * 15}%`,
-              left: `${5 + i * 20}%`,
-              borderRadius: i % 2 === 0 ? '4px' : '50%'
-            }}
-          />
+      <BackgroundLayer>
+        {mounted && globeSystem.map((g) => (
+          <GlobeContainer key={g.id} style={{ width: g.size, height: g.size, top: g.top, left: g.left, right: g.right, bottom: g.bottom }}>
+            <RotatingWorld style={{ animationDuration: g.speed }}>
+               <Ring style={{ transform: 'rotateX(90deg)' }} />
+               <Ring style={{ transform: 'rotateX(90deg) translateZ(60px) scale(0.9)' }} />
+               <Ring style={{ transform: 'rotateY(0deg)' }} />
+               <Ring style={{ transform: 'rotateY(60deg)' }} />
+               <GlowingNode style={{ top: '50%', left: '100%' }} />
+               <GlowingNode style={{ top: '0%', left: '50%' }} />
+            </RotatingWorld>
+          </GlobeContainer>
         ))}
-      </BackgroundDepth>
+        <div style={{ position: 'absolute', top: '10%', right: '10%', width: '40vw', height: '40vw', background: 'radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 75%)', filter: 'blur(100px)' }} />
+      </BackgroundLayer>
 
-      <MainContent>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <TitleBadge>
-            <div style={{ width: 50, height: 1, background: '#D4AF37' }} />
-            <span>Technology & Innovation Studio</span>
-          </TitleBadge>
-          <HeroHeading>
-            Kimelia <br /> <Shimmer>Soft</Shimmer>
-          </HeroHeading>
+      <ContentStack>
+        <BrandSection>
+          <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, marginBottom: 40 }}>
+               <div style={{ width: 60, height: 1, background: '#D4AF37' }} />
+               <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.8em', textTransform: 'uppercase', color: '#D4AF37' }}>Technology Innovation Studio</span>
+               <div style={{ width: 60, height: 1, background: '#D4AF37' }} />
+            </div>
+            <BrandName>Kimelia <br /> <Shimmer>Soft</Shimmer></BrandName>
+          </motion.div>
+        </BrandSection>
+
+        <InstitutionalDivider />
+
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
+          <EditorialMission>
+            Building smart digital products that empower talented creators and change how people interact with technology.
+          </EditorialMission>
+          
+          <SubDescription>
+            Kimelia Soft is a technology lab focused on the future. We use AI and intentional design to create high-quality products built to solve problems and scale globally.
+          </SubDescription>
+
+          <button className="metallic-gold-pill" style={{ padding: '22px 65px', fontSize: '0.85rem' }}>
+            Explore Innovations <ArrowUpRight size={22} />
+          </button>
+
+          <ServiceRow style={{ marginTop: '100px' }}>
+            <ServiceItem><Globe size={20} color="#D4AF37" /> Marketplaces</ServiceItem>
+            <ServiceItem><Cpu size={20} color="#D4AF37" /> AI Technology</ServiceItem>
+            <ServiceItem><Zap size={20} color="#D4AF37" /> Smart Tools</ServiceItem>
+            <ServiceItem><Layers size={20} color="#D4AF37" /> Incubation</ServiceItem>
+          </ServiceRow>
         </motion.div>
-
-        <ContentGrid>
-          <div>
-            <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
-              <MissionStatement>
-                Building smart digital products that empower talented creators and change how people interact with technology.
-              </MissionStatement>
-              <HeroCTA className="metallic-gold-pill">
-                See Our Innovations <ArrowUpRight size={22} />
-              </HeroCTA>
-            </motion.div>
-          </div>
-
-          <div>
-            <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
-              <SubText>
-                Kimelia Soft is a technology lab focused on the future. We use AI and intentional design to create high-quality products built to solve problems and scale globally.
-              </SubText>
-              <ServiceGrid>
-                <Service><Globe size={20} color="#D4AF37" /> Marketplaces</Service>
-                <Service><Cpu size={20} color="#D4AF37" /> AI Technology</Service>
-                <Service><Zap size={20} color="#D4AF37" /> Creative Tools</Service>
-                <Service><Layers size={20} color="#D4AF37" /> Product Launch</Service>
-              </ServiceGrid>
-            </motion.div>
-          </div>
-        </ContentGrid>
-      </MainContent>
-
-      <div style={{
-        position: 'absolute',
-        bottom: '0',
-        width: '100%',
-        height: '30vh',
-        background: 'linear-gradient(to top, rgba(212,175,55,0.03) 0%, transparent 100%)',
-        zIndex: 0
-      }} />
+      </ContentStack>
     </HeroWrapper>
   );
 }
