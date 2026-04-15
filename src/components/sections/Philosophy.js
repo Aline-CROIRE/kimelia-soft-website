@@ -3,11 +3,11 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { Cpu, Sparkles, Users, Globe, ShieldCheck } from "lucide-react";
+import { Cpu, Layout, Users, BarChart, ShieldCheck } from "lucide-react";
 
 const Section = styled.section`
   padding: 180px 8%;
-  background: #FCFCFD; /* Very soft studio light gray */
+  background: #FCFCFC;
   position: relative;
   overflow: hidden;
 `;
@@ -15,22 +15,20 @@ const Section = styled.section`
 const ContentWrapper = styled.div`
   max-width: 1400px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 120px;
+  position: relative;
+  z-index: 10;
 `;
 
-const IntroSection = styled.div`
-  max-width: 800px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+const Header = styled.div`
+  max-width: 900px;
+  margin-bottom: 140px;
 `;
 
 const Badge = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
+  margin-bottom: 35px;
   span {
     font-size: 11px;
     font-weight: 700;
@@ -40,151 +38,181 @@ const Badge = styled.div`
   }
 `;
 
-const MainTitle = styled.h2`
-  font-size: clamp(2.5rem, 5vw, 4.8rem);
+const GoldLine = styled.div`
+  width: 50px;
+  height: 1px;
+  background: #D4AF37;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
   font-weight: 700;
   text-transform: uppercase;
   line-height: 0.9;
-  letter-spacing: -0.04em;
-  color: #000000;
-`;
-
-const PhilosophyGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 30px;
-  @media (max-width: 1024px) { display: flex; flex-direction: column; }
-`;
-
-const PhilosophyCard = styled(motion.div)`
-  grid-column: ${props => props.$span || "span 4"};
-  background: #FFFFFF;
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid rgba(0,0,0,0.05);
-  position: relative;
-  min-height: 400px;
-  transition: all 0.5s ease;
-
-  &:hover {
-    transform: translateY(-10px);
-    border-color: #D4AF37;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.05);
-  }
-`;
-
-const IconCircle = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba(212, 175, 55, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #D4AF37;
+  letter-spacing: -0.05em;
   margin-bottom: 40px;
 `;
 
+const Motto = styled.p`
+  font-family: var(--font-lora);
+  font-style: italic;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: rgba(0,0,0,0.5);
+  line-height: 1.4;
+  max-width: 700px;
+`;
+
+/* THE ARCHITECTURAL GRID */
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1px;
+  background: rgba(0,0,0,0.06); /* Grid line color */
+  border: 1px solid rgba(0,0,0,0.06);
+`;
+
+const Card = styled(motion.div)`
+  grid-column: ${props => props.$span || "span 4"};
+  background: #FFFFFF;
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    z-index: 2;
+    background: #FFFFFF;
+    box-shadow: inset 5px 0 0 #D4AF37, 0 30px 60px rgba(0,0,0,0.05);
+    transform: translateY(-5px);
+  }
+
+  @media (max-width: 1024px) { grid-column: 1 / -1; padding: 60px 40px; }
+`;
+
+const CardTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #D4AF37;
+`;
+
+const CardNumber = styled.span`
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  opacity: 0.5;
+`;
+
 const CardTitle = styled.h3`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 20px;
-  color: #000000;
 `;
 
 const CardBody = styled.p`
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: rgba(0,0,0,0.5);
-  line-height: 1.7;
-  font-weight: 400;
+  line-height: 1.8;
+  max-width: 500px;
 `;
 
-const QuoteLayer = styled.p`
+const CardFooter = styled.p`
   font-family: var(--font-lora);
   font-style: italic;
-  font-size: 1.8rem;
-  color: #000000;
-  opacity: 0.8;
+  font-size: 1.3rem;
+  color: #D4AF37;
   margin-top: auto;
-  border-top: 1px solid rgba(0,0,0,0.05);
-  padding-top: 30px;
 `;
 
-const principles = [
+const commitments = [
   {
-    icon: <Cpu size={28} />,
-    title: "Innovation First",
-    body: "Technology is not decoration. We integrate AI as a genuine solution to solve real, observable problems.",
-    quote: "Intelligence at the core.",
+    id: "01",
+    icon: <Cpu size={24} />,
+    title: "Intelligent Design",
+    body: "We combine deep logic with creative vision to build products that solve problems and open new possibilities for interaction.",
+    footer: "Systems that think.",
     span: "span 7"
   },
   {
-    icon: <Sparkles size={28} />,
-    title: "Intentional UX",
-    body: "Design is central to every product. We deliver user experiences that feel seamless and refined, not utilitarian.",
-    quote: "Beauty in function.",
+    id: "02",
+    icon: <Layout size={24} />,
+    title: "Intuitive Flow",
+    body: "Digital products should feel natural. We focus on making technology invisible, so the experience stays human and clear.",
+    footer: "Designed for people.",
     span: "span 5"
   },
   {
-    icon: <Users size={28} />,
-    title: "Talent Focused",
-    body: "We build professional platforms that give local creators the tools and infrastructure to compete globally.",
-    quote: "Empowering the vision.",
+    id: "03",
+    icon: <Users size={24} />,
+    title: "Economic Growth",
+    body: "Our mission is to create pathways for creators. We build the infrastructure that turns local talent into a global standard.",
+    footer: "Empowering creators.",
     span: "span 5"
   },
   {
-    icon: <Globe size={28} />,
-    title: "Scalable Systems",
-    body: "Every product is architected to scale. Built once to serve 10 users and engineered to serve 10 million.",
-    quote: "Global by architecture.",
+    id: "04",
+    icon: <BarChart size={24} />,
+    title: "Limitless Scale",
+    body: "We engineer solutions that are ready for the world. Every system we build is architected to handle growth without friction.",
+    footer: "Built to scale.",
     span: "span 7"
+  },
+  {
+    id: "05",
+    icon: <ShieldCheck size={24} />,
+    title: "Trusted Excellence",
+    body: "Security and quality are the foundations of our studio. We maintain the highest standards to ensure every platform is a safe space for commerce.",
+    footer: "Commitment to quality.",
+    span: "span 12"
   }
 ];
 
 export default function Philosophy() {
   return (
-    <Section id="philosophy">
+    <Section id="studio" className="blueprint-dots">
       <ContentWrapper>
-        <IntroSection>
+        <Header>
           <Badge>
-            <div style={{ width: 40, height: 1, background: '#D4AF37' }} />
-            <span>The Studio Culture</span>
+            <GoldLine />
+            <span>The Studio Philosophy</span>
           </Badge>
-          <MainTitle>
-            Engineering <br /> with <span className="text-gradient-gold">Purpose</span>
-          </MainTitle>
-          <p style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic', fontSize: '1.4rem', color: 'rgba(0,0,0,0.5)', lineHeight: '1.5' }}>
-            "We don't build generic software. We build the digital infrastructure for the next generation of African creators."
-          </p>
-        </IntroSection>
+          <SectionTitle>
+            Architecting <br /> the <span className="gold-shimmer-text">Future</span>
+          </SectionTitle>
+          <Motto>
+            "Kimelia Soft exists to build the digital infrastructure that empowers creators and redefined how we interact with technology."
+          </Motto>
+        </Header>
 
-        <PhilosophyGrid>
-          {principles.map((p, i) => (
-            <PhilosophyCard 
+        <Grid>
+          {commitments.map((c, i) => (
+            <Card 
               key={i} 
-              $span={p.span}
-              initial={{ opacity: 0, y: 40 }}
+              $span={c.span}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.8 }}
             >
+              <CardTop>
+                {c.icon}
+                <CardNumber>{c.id}</CardNumber>
+              </CardTop>
               <div>
-                <IconCircle>{p.icon}</IconCircle>
-                <CardTitle>{p.title}</CardTitle>
-                <CardBody>{p.body}</CardBody>
+                <CardTitle>{c.title}</CardTitle>
+                <CardBody>{c.body}</CardBody>
               </div>
-              <QuoteLayer>{p.quote}</QuoteLayer>
-            </PhilosophyCard>
+              <CardFooter>{c.footer}</CardFooter>
+            </Card>
           ))}
-        </PhilosophyGrid>
+        </Grid>
       </ContentWrapper>
       
-      {/* Subtle background light node */}
-      <div style={{ position: 'absolute', bottom: '-10%', left: '10%', width: '40vw', height: '40vw', background: 'radial-gradient(circle, rgba(212,175,55,0.03) 0%, transparent 70%)', zIndex: -1 }} />
+      {/* Background Architectural Accent */}
+      <div style={{ position: 'absolute', bottom: '5%', right: '5%', width: '300px', height: '300px', border: '1px solid rgba(212,175,55,0.1)', borderRadius: '50%', pointerEvents: 'none' }} />
     </Section>
   );
 }
