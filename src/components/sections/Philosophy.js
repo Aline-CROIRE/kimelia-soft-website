@@ -6,161 +6,185 @@ import { motion } from "framer-motion";
 import { Cpu, Sparkles, Users, Globe, ShieldCheck } from "lucide-react";
 
 const Section = styled.section`
-  padding: 160px 8%;
-  background: #F8F8F8; /* Soft Studio Gray for rhythm */
+  padding: 180px 8%;
+  background: #FCFCFD; /* Very soft studio light gray */
   position: relative;
+  overflow: hidden;
 `;
 
-const Header = styled.div`
+const ContentWrapper = styled.div`
   max-width: 1400px;
-  margin: 0 auto 100px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: end;
-  @media (max-width: 1024px) { grid-template-columns: 1fr; }
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
 `;
 
-const SectionLabel = styled.div`
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5em;
-  color: #D4AF37;
-  margin-bottom: 20px;
+const IntroSection = styled.div`
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 `;
 
-const Title = styled.h2`
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+const Badge = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  span {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6em;
+    color: #D4AF37;
+  }
+`;
+
+const MainTitle = styled.h2`
+  font-size: clamp(2.5rem, 5vw, 4.8rem);
   font-weight: 700;
   text-transform: uppercase;
   line-height: 0.9;
   letter-spacing: -0.04em;
+  color: #000000;
 `;
 
-const Subtitle = styled.p`
-  font-family: var(--font-lora);
-  font-style: italic;
-  font-size: 1.4rem;
-  color: rgba(0,0,0,0.5);
-  max-width: 500px;
-  line-height: 1.4;
-`;
-
-const PrinciplesGrid = styled.div`
-  max-width: 1400px;
-  margin: 0 auto;
+const PhilosophyGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px; /* For the "Grid Line" look */
-  background: rgba(0,0,0,0.05); /* Lines color */
-  border: 1px solid rgba(0,0,0,0.05);
-
-  @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
-  @media (max-width: 600px) { grid-template-columns: 1fr; }
+  grid-template-columns: repeat(12, 1fr);
+  gap: 30px;
+  @media (max-width: 1024px) { display: flex; flex-direction: column; }
 `;
 
-const Card = styled(motion.div)`
+const PhilosophyCard = styled(motion.div)`
+  grid-column: ${props => props.$span || "span 4"};
   background: #FFFFFF;
-  padding: 80px 50px;
+  padding: 60px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  height: 100%;
+  justify-content: space-between;
+  border: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+  min-height: 400px;
   transition: all 0.5s ease;
 
   &:hover {
-    background: #FFFFFF;
-    box-shadow: inset 0 -4px 0 #D4AF37;
-    z-index: 2;
+    transform: translateY(-10px);
+    border-color: #D4AF37;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.05);
   }
 `;
 
-const IconBox = styled.div`
+const IconCircle = styled.div`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #D4AF37;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
 `;
 
 const CardTitle = styled.h3`
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+  color: #000000;
 `;
 
 const CardBody = styled.p`
-  font-size: 0.95rem;
-  color: rgba(0,0,0,0.6);
+  font-size: 1.05rem;
+  color: rgba(0,0,0,0.5);
   line-height: 1.7;
+  font-weight: 400;
+`;
+
+const QuoteLayer = styled.p`
+  font-family: var(--font-lora);
+  font-style: italic;
+  font-size: 1.8rem;
+  color: #000000;
+  opacity: 0.8;
+  margin-top: auto;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding-top: 30px;
 `;
 
 const principles = [
   {
-    icon: <Cpu size={32} />,
+    icon: <Cpu size={28} />,
     title: "Innovation First",
-    body: "Technology is not decoration. We integrate AI as a genuine differentiator to solve complex interaction problems."
+    body: "Technology is not decoration. We integrate AI as a genuine solution to solve real, observable problems.",
+    quote: "Intelligence at the core.",
+    span: "span 7"
   },
   {
-    icon: <Sparkles size={32} />,
-    title: "Experiential Design",
-    body: "UX is central to every product. We build interfaces that feel intentional and seamless, removing all digital friction."
+    icon: <Sparkles size={28} />,
+    title: "Intentional UX",
+    body: "Design is central to every product. We deliver user experiences that feel seamless and refined, not utilitarian.",
+    quote: "Beauty in function.",
+    span: "span 5"
   },
   {
-    icon: <Users size={32} />,
-    title: "Talent Empowerment",
-    body: "We engineer professional platforms that give local creative talent the infrastructure to compete at global standards."
+    icon: <Users size={28} />,
+    title: "Talent Focused",
+    body: "We build professional platforms that give local creators the tools and infrastructure to compete globally.",
+    quote: "Empowering the vision.",
+    span: "span 5"
   },
   {
-    icon: <Globe size={32} />,
+    icon: <Globe size={28} />,
     title: "Scalable Systems",
-    body: "Our architecture is modular and API-first. Every solution is built once to thrive in any market, at any scale."
-  },
-  {
-    icon: <ShieldCheck size={32} />,
-    title: "Curated Trust",
-    body: "We build safe, reliable ecosystems. Through admin-approval and verified listings, we maintain the integrity of our platforms."
+    body: "Every product is architected to scale. Built once to serve 10 users and engineered to serve 10 million.",
+    quote: "Global by architecture.",
+    span: "span 7"
   }
 ];
 
 export default function Philosophy() {
   return (
     <Section id="philosophy">
-      <Header>
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }} 
-          whileInView={{ opacity: 1, x: 0 }} 
-          viewport={{ once: true }}
-        >
-          <SectionLabel>Section 02</SectionLabel>
-          <Title>The Studio <br /> Philosophy</Title>
-        </motion.div>
-        <motion.div 
-          initial={{ opacity: 0, x: 30 }} 
-          whileInView={{ opacity: 1, x: 0 }} 
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-        >
-          <Subtitle>
-            "We don't build generic software. We build the architecture for the next generation of creators."
-          </Subtitle>
-        </motion.div>
-      </Header>
+      <ContentWrapper>
+        <IntroSection>
+          <Badge>
+            <div style={{ width: 40, height: 1, background: '#D4AF37' }} />
+            <span>The Studio Culture</span>
+          </Badge>
+          <MainTitle>
+            Engineering <br /> with <span className="text-gradient-gold">Purpose</span>
+          </MainTitle>
+          <p style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic', fontSize: '1.4rem', color: 'rgba(0,0,0,0.5)', lineHeight: '1.5' }}>
+            "We don't build generic software. We build the digital infrastructure for the next generation of African creators."
+          </p>
+        </IntroSection>
 
-      <PrinciplesGrid>
-        {principles.map((p, i) => (
-          <Card 
-            key={i}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-          >
-            <IconBox>{p.icon}</IconBox>
-            <CardTitle>{p.title}</CardTitle>
-            <CardBody>{p.body}</CardBody>
-          </Card>
-        ))}
-      </PrinciplesGrid>
+        <PhilosophyGrid>
+          {principles.map((p, i) => (
+            <PhilosophyCard 
+              key={i} 
+              $span={p.span}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.8 }}
+            >
+              <div>
+                <IconCircle>{p.icon}</IconCircle>
+                <CardTitle>{p.title}</CardTitle>
+                <CardBody>{p.body}</CardBody>
+              </div>
+              <QuoteLayer>{p.quote}</QuoteLayer>
+            </PhilosophyCard>
+          ))}
+        </PhilosophyGrid>
+      </ContentWrapper>
+      
+      {/* Subtle background light node */}
+      <div style={{ position: 'absolute', bottom: '-10%', left: '10%', width: '40vw', height: '40vw', background: 'radial-gradient(circle, rgba(212,175,55,0.03) 0%, transparent 70%)', zIndex: -1 }} />
     </Section>
   );
 }

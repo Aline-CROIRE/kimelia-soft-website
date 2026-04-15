@@ -44,3 +44,21 @@ html, body {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: #D4AF37;
+  background: #FFFFFF;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.05);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(90deg, #8B6B18, #D4AF37, #8B6B18);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
