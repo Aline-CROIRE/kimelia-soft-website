@@ -3,180 +3,185 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Scan, Globe, Sparkles } from "lucide-react";
+import { ArrowUpRight, ScanLine, Globe2, Sparkle } from "lucide-react";
 
 const Section = styled.section`
-  padding: 180px 8%;
-  background: #121212; /* Deep Studio Charcoal */
+  padding: 200px 8%;
+  background: #000000; /* Pure Institutional Black */
   color: #FFFFFF;
   position: relative;
   overflow: hidden;
 `;
 
-const Layout = styled.div`
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 120px;
-  align-items: center;
-
-  @media (max-width: 1100px) { grid-template-columns: 1fr; text-align: center; gap: 80px; }
+const Atmosphere = styled.div`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
 `;
 
-const ContentSide = styled.div`
+const Container = styled.div`
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 45px;
+  gap: 140px;
+`;
+
+const TopBlock = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 60px;
+  @media (max-width: 1024px) { flex-direction: column; align-items: center; text-align: center; gap: 40px; }
+`;
+
+const TitleArea = styled.div`
+  max-width: 800px;
 `;
 
 const Label = styled.div`
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.6em;
+  letter-spacing: 0.8em;
   color: #D4AF37;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  @media (max-width: 1100px) { justify-content: center; }
+  margin-bottom: 30px;
 `;
 
-const ProductTitle = styled.h2`
-  font-size: clamp(3rem, 6vw, 6rem);
+const MainTitle = styled.h2`
+  font-size: clamp(3rem, 7vw, 7.5rem);
   font-weight: 700;
   text-transform: uppercase;
   line-height: 0.85;
   letter-spacing: -0.05em;
 `;
 
-const Motto = styled.p`
+const ItalicStatement = styled.p`
   font-family: var(--font-lora);
   font-style: italic;
-  font-size: 1.8rem;
-  color: rgba(255,255,255,0.7);
-  line-height: 1.3;
-  max-width: 500px;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 30px;
 `;
 
-const FeatureGrid = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  margin-top: 20px;
-`;
-
-const Feature = styled.div`
-  display: flex;
-  gap: 25px;
-  text-align: left;
-`;
-
-const IconCircle = styled.div`
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  display: flex;
+/* THE INNOVATION CARDS */
+const PresentationGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
   align-items: center;
-  justify-content: center;
-  color: #D4AF37;
-  flex-shrink: 0;
+  @media (max-width: 1100px) { grid-template-columns: 1fr; }
 `;
 
-const FeatureText = styled.div`
-  h4 { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #D4AF37; margin-bottom: 10px; }
-  p { font-size: 1rem; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 400px; }
-`;
-
-/* THE VISIONARY GLASS PANEL */
-const VisionPanel = styled(motion.div)`
-  width: 100%;
-  height: 700px;
-  background: #000000;
+const GlassArtifact = styled(motion.div)`
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
   border: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 80px;
   position: relative;
-  overflow: hidden;
-  box-shadow: 0 60px 120px rgba(0,0,0,0.6);
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 80px;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 6px;
-    background: linear-gradient(90deg, #8B6B18, #D4AF37, #8B6B18);
-  }
+  @media (max-width: 768px) { padding: 40px; min-height: 450px; }
 `;
 
-const PanelTitle = styled.h3`
-  font-size: 2.2rem;
+const ArtifactTitle = styled.h3`
+  font-size: 2.5rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: #FFFFFF;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1;
+`;
+
+const FeatureSet = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 60px;
+`;
+
+const FeatureBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+  .icon { color: #D4AF37; opacity: 0.8; }
+  h4 { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #D4AF37; }
+  p { font-size: 0.95rem; color: rgba(255, 255, 255, 0.4); line-height: 1.6; }
 `;
 
 export default function Innovations() {
   return (
-    <Section id="innovations">
-      <div className="horizon-glow" style={{ position: 'absolute', top: '20%', right: '10%', width: '50vw', height: '50vw' }} />
+    <Section id="innovation">
+      <Atmosphere />
       
-      <Layout>
-        <ContentSide>
-          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <Label><div style={{ width: 40, height: 1, background: '#D4AF37' }} /> Flagship Solution</Label>
-            <ProductTitle>Kimelia <br /> <span className="gold-shimmer-text">Luxe</span></ProductTitle>
-            <Motto>"The new digital standard for fashion and interaction."</Motto>
-          </motion.div>
+      <Container>
+        <TopBlock>
+          <TitleArea>
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }}
+            >
+              <Label>Active Innovation</Label>
+              <MainTitle>Kimelia <br /> <span className="gold-shimmer-text">Luxe</span></MainTitle>
+              <ItalicStatement>
+                Building a new dimension of digital interaction.
+              </ItalicStatement>
+            </motion.div>
+          </TitleArea>
 
-          <FeatureGrid>
-            <Feature>
-              <IconCircle><Scan size={24} /></IconCircle>
-              <FeatureText>
-                <h4>Virtual Experience</h4>
-                <p>Allowing users to visualize products in high-detail before purchase, creating an immersive bridge between the digital and physical world.</p>
-              </FeatureText>
-            </Feature>
-            <Feature>
-              <IconCircle><Globe size={24} /></IconCircle>
-              <FeatureText>
-                <h4>Connected Ecosystem</h4>
-                <p>A global-standard marketplace where visionary talent meets an audience that values exceptional design and quality.</p>
-              </FeatureText>
-            </Feature>
-          </FeatureGrid>
-
-          <button className="metallic-gold-pill" style={{ width: 'fit-content', padding: '22px 55px', fontSize: '0.8rem' }}>
-            Visit Platform <ArrowUpRight size={18} style={{ marginLeft: 15 }} />
+          <button className="metallic-gold-pill" style={{ padding: '24px 60px', fontSize: '0.8rem' }}>
+            Visit Platform <ArrowUpRight size={20} style={{ marginLeft: 15 }} />
           </button>
-        </ContentSide>
+        </TopBlock>
 
-        <VisionPanel
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div>
-            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.6em', color: '#D4AF37', textTransform: 'uppercase' }}>Kimelia Soft Systems</span>
-            <PanelTitle style={{ marginTop: 30 }}>Transforming talent <br /> into global icons.</PanelTitle>
-          </div>
+        <PresentationGrid>
+          <GlassArtifact
+            className="light-sweep"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div>
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.4em', color: '#D4AF37', textTransform: 'uppercase' }}>Established Standard</span>
+              <ArtifactTitle style={{ marginTop: 30 }}>Design Meets <br /> Intelligence.</ArtifactTitle>
+              <p style={{ marginTop: 30, color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', lineHeight: '1.7', maxWidth: '400px' }}>
+                We believe in technology that makes life better. Kimelia Luxe brings the future of interaction to the world of fashion.
+              </p>
+            </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-             <div style={{ width: 60, height: 60, border: '1px solid rgba(212,175,55,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Sparkles size={20} color="#D4AF37" />
-             </div>
-             <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.3em', opacity: 0.3 }}>Refined Infrastructure</p>
-          </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+               <div style={{ width: 60, height: 60, border: '1px solid rgba(212,175,55,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Sparkle size={24} color="#D4AF37" />
+               </div>
+               <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', opacity: 0.3 }}>Kimelia Studio Engineering</span>
+            </div>
+            
+            {/* Holographic background glow */}
+            <div style={{ position: 'absolute', bottom: '-20%', right: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: -1 }} />
+          </GlassArtifact>
 
-          {/* Deep glass glow */}
-          <div style={{ position: 'absolute', bottom: '-20%', left: '-10%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%)', filter: 'blur(50px)' }} />
-        </VisionPanel>
-      </Layout>
+          <FeatureSet>
+             <FeatureBox>
+                <ScanLine className="icon" size={32} />
+                <h4>Virtual Discovery</h4>
+                <motion.div initial={{ width: 0 }} whileInView={{ width: 40 }} viewport={{ once: true }} transition={{ duration: 1 }} style={{ height: 1, background: '#D4AF37' }} />
+                <p>See exactly how items look before you buy. Our smart visualization creates a perfect bridge between the digital and real world.</p>
+             </FeatureBox>
+
+             <FeatureBox>
+                <Globe2 className="icon" size={32} />
+                <h4>Global Network</h4>
+                <motion.div initial={{ width: 0 }} whileInView={{ width: 40 }} viewport={{ once: true }} transition={{ duration: 1 }} style={{ height: 1, background: '#D4AF37' }} />
+                <p>A connected space where the world’s best creators meet an audience that loves smart, high-quality design.</p>
+             </FeatureBox>
+          </FeatureSet>
+        </PresentationGrid>
+      </Container>
     </Section>
   );
 }

@@ -84,12 +84,23 @@ html, body {
 
 /* ... keep previous styles ... */
 
-.horizon-glow {
-  background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 80%);
-  filter: blur(100px);
+.light-sweep {
+  position: relative;
+  overflow: hidden;
 }
 
-.brushed-border {
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+.light-sweep::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 20%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(30deg);
+  transition: all 0.7s ease;
+}
+
+.light-sweep:hover::after {
+  left: 120%;
 }
