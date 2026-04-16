@@ -67,14 +67,16 @@ export default function Navbar() {
   return (
     <Nav $scrolled={scrolled}>
       <LogoBox onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-        <Image 
-          src="/logo.png" 
-          alt="Kimelia Soft" 
-          fill 
-          style={{ objectFit: 'contain' }} 
-          priority 
-          sizes="170px"
-        />
+<Image
+  src="/logo.png"
+  alt="Kimelia Soft Logo"
+  width={220}
+  height={80}
+  style={{
+    objectFit: "contain",
+  }}
+  priority
+/>
       </LogoBox>
       
       <LinkGroup>

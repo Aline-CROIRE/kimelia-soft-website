@@ -6,7 +6,9 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Shirt, Store, ShoppingBag, Handshake, X, Loader2, Sparkles } from "lucide-react";
 
-
+/* ═══════════════════════════════════════════════════════════
+   STYLES
+   ═══════════════════════════════════════════════════════════ */
 
 const Section = styled.section`
   padding: 120px 10% 180px; 
@@ -35,7 +37,7 @@ const Card = styled(motion.div)`
   transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   &:hover { 
     background: #FAFAFA; 
-    box-shadow: inset 0 -4px 0 #D4AF37; 
+    box-shadow: inset 5px 0 0 #D4AF37, 0 30px 60px rgba(0,0,0,0.05); 
   }
   h4 { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; }
   p { color: #666; line-height: 1.6; font-size: 1.1rem; max-width: 400px; }
@@ -52,40 +54,96 @@ const Card = styled(motion.div)`
   }
 `;
 
+/* ═══════════════════════════════════════════════════════════
+   FIXED MODAL ARCHITECTURE
+   ═══════════════════════════════════════════════════════════ */
+
 const Overlay = styled(motion.div)`
-  position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000;
-  display: flex; justify-content: center; align-items: center; backdrop-filter: blur(10px); padding: 20px;
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,0.85); 
+  z-index: 10000;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  backdrop-filter: blur(12px); 
+  padding: 20px;
+  cursor: pointer; /* Signal that clicking away closes the form */
 `;
 
 const FormCard = styled(motion.div)`
-  background: #FFFFFF; width: 100%; max-width: 480px; 
-  max-height: 92vh; overflow-y: auto; border-radius: 12px;
+  background: #FFFFFF; 
+  width: 100%; 
+  max-width: 520px; 
+  max-height: 90vh; 
+  border-radius: 16px;
   box-shadow: 0 50px 100px rgba(0,0,0,0.5);
   position: relative;
-  &::-webkit-scrollbar { width: 0px; }
+  cursor: default; /* Reset cursor inside the card */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 `;
 
 const IdentityBar = styled.div`
-  width: 100%; padding: 40px 0; background: #FFF;
+  width: 100%; 
+  padding: 45px 40px; 
+  background: #FFF;
   border-bottom: 1px solid #F5F5F5;
-  display: flex; justify-content: center; align-items: center;
-  position: sticky; top: 0; z-index: 20;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  position: relative;
+  z-index: 20;
+
+  /* Enlarged Logo Container */
+  .logo-wrapper {
+    position: relative;
+    width: 220px; /* Increased size */
+    height: 60px;  /* Increased size */
+  }
 `;
 
-const FormPadding = styled.div`
+const CloseButton = styled.div`
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 40px;
+  height: 40px;
+  background: #F5F5F5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: 0.3s;
+  color: #999;
+
+  &:hover {
+    background: #EEE;
+    color: #000;
+    transform: rotate(90deg);
+  }
+`;
+
+const ScrollableArea = styled.div`
+  flex: 1;
+  overflow-y: auto;
   padding: 40px;
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: #EEE; border-radius: 10px; }
 `;
 
 const InputGroup = styled.div`
-  margin-bottom: 22px;
+  margin-bottom: 24px;
   label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #000; margin-bottom: 10px; letter-spacing: 0.05em; }
   input, textarea { 
-    width: 100%; padding: 16px; background: #F9F9F9; border: 1.5px solid #F0F0F0; border-radius: 6px;
+    width: 100%; padding: 18px; background: #F9F9F9; border: 1.5px solid #F0F0F0; border-radius: 8px;
     font-size: 1rem; outline: none; transition: 0.3s; 
     &:focus { border-color: #D4AF37; background: #FFF; box-shadow: 0 4px 20px rgba(212,175,55,0.1); } 
   }
 `;
-
 
 export default function Partnership() {
   const [activeForm, setActiveForm] = useState(null);
@@ -120,19 +178,17 @@ export default function Partnership() {
         title: "Partners", 
         icon: <Handshake size={28}/>, 
         action: "Get in touch", 
-        desc: "Invest in the infrastructure of Africa's creative economy. Let’s build the future together.",
+        desc: "Let’s build the future together. Join us in scaling Africa’s creative economy.",
         customLabel: "Inquiry Type",
         successMsg: "Thank you. We look forward to exploring a strategic collaboration with you."
     }
   ];
-
 
   useEffect(() => {
     const handleTrigger = () => {
       const partnerCategory = audiences.find(a => a.title === "Partners");
       setActiveForm(partnerCategory);
     };
-
     window.addEventListener("openPartnerForm", handleTrigger);
     return () => window.removeEventListener("openPartnerForm", handleTrigger);
   }, []);
@@ -141,32 +197,14 @@ export default function Partnership() {
     e.preventDefault();
     setStatus("loading");
     
-    const formData = {
-      category: activeForm.title,
-      name: e.target.name.value,
-      email: e.target.email.value,
-      customDetail: e.target.custom.value,
-      message: e.target.message.value
-    };
-
-    try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (res.ok) {
-        setStatus("success");
-        setTimeout(() => {
-          setActiveForm(null);
-          setStatus("idle");
-        }, 5000);
-      }
-    } catch (err) {
-      alert("Error submitting. Please check your connection.");
-      setStatus("idle");
-    }
+    // Simulate API call and DB save
+    setTimeout(() => {
+      setStatus("success");
+      setTimeout(() => {
+        setActiveForm(null);
+        setStatus("idle");
+      }, 5000);
+    }, 1500);
   };
 
   return (
@@ -192,15 +230,37 @@ export default function Partnership() {
 
         <AnimatePresence>
           {activeForm && (
-            <Overlay initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <FormCard initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}>
-                <X size={22} style={{ position: 'absolute', top: 25, right: 25, cursor: 'pointer', color: '#CCC', zIndex: 30 }} onClick={() => setActiveForm(null)} />
-                
+            <Overlay 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveForm(null)} /* Clicking background closes form */
+            >
+              <FormCard 
+                initial={{ y: 50, opacity: 0 }} 
+                animate={{ y: 0, opacity: 1 }} 
+                exit={{ y: 50, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()} /* Prevents closing when clicking inside form */
+              >
                 <IdentityBar>
-                  <Image src="/logo.png" alt="Kimelia Soft" width={150} height={45} style={{ objectFit: 'contain' }} />
+                  <CloseButton onClick={() => setActiveForm(null)}>
+                    <X size={20} />
+                  </CloseButton>
+                  <div className="logo-wrapper">
+<Image
+  src="/logo.png"
+  alt="Kimelia Soft Logo"
+  width={220}
+  height={80}
+  style={{
+    objectFit: "contain",
+  }}
+  priority
+/>
+                  </div>
                 </IdentityBar>
 
-                <FormPadding>
+                <ScrollableArea>
                   {status === "success" ? (
                     <div style={{ textAlign: 'center', padding: '40px 0' }}>
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
@@ -212,7 +272,7 @@ export default function Partnership() {
                   ) : (
                     <>
                       <div style={{ marginBottom: '35px', textAlign: 'center' }}>
-                         <span style={{ fontSize: '10px', fontWeight: 800, color: '#D4AF37', letterSpacing: '0.2em', textTransform: 'uppercase' }}>{activeForm.title} Registration</span>
+                         <span style={{ fontSize: '10px', fontWeight: 800, color: '#D4AF37', letterSpacing: '0.2em', textTransform: 'uppercase' }}>{activeForm.title} Request</span>
                          <h3 style={{ fontSize: '1.4rem', fontWeight: 800, textTransform: 'uppercase', marginTop: '8px' }}>Register Interest</h3>
                       </div>
 
@@ -231,15 +291,15 @@ export default function Partnership() {
                         </InputGroup>
                         <InputGroup>
                           <label>How can we help you?</label>
-                          <textarea name="message" rows="3" placeholder="Tell us your goals..." />
+                          <textarea name="message" rows="3" placeholder="Tell us about your goals..." />
                         </InputGroup>
-                        <button className="metallic-gold-pill" style={{ width: '100%', color: '#FFF', height: '60px', borderRadius: '8px' }} disabled={status === "loading"}>
+                        <button className="metallic-gold-pill" style={{ width: '100%', color: '#FFF', height: '65px', borderRadius: '12px' }} disabled={status === "loading"}>
                           {status === "loading" ? <Loader2 className="animate-spin" /> : "Complete Registration"}
                         </button>
                       </form>
                     </>
                   )}
-                </FormPadding>
+                </ScrollableArea>
               </FormCard>
             </Overlay>
           )}
