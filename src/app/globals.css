@@ -1,4 +1,4 @@
-/* 1. FUNDAMENTAL STUDIO RESET */
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -16,8 +16,7 @@ html, body {
   scroll-behavior: smooth;
 }
 
-/* 2. THE UNIFIED GOLD PILL ARCHITECTURE */
-/* Used across Navbar and every section for absolute consistency */
+
 .metallic-gold-pill {
   background: linear-gradient(135deg, #8B6B18 0%, #D4AF37 50%, #8B6B18 100%);
   background-size: 200% auto;
@@ -38,7 +37,7 @@ html, body {
   overflow: hidden;
 }
 
-/* Luxury 'Light Sweep' effect on hover */
+
 .metallic-gold-pill::after {
   content: '';
   position: absolute;
@@ -60,8 +59,6 @@ html, body {
   left: 120%;
 }
 
-/* 3. BRAND METALLIC SHIMMERS */
-/* Champagne tone - specifically designed to not look like yellow */
 .gold-shimmer-text, 
 .metallic-gold-shimmer {
   background: linear-gradient(90deg, #8B6B18, #D4AF37, #FFFFFF, #D4AF37, #8B6B18);
@@ -71,7 +68,6 @@ html, body {
   animation: shimmer 8s linear infinite;
 }
 
-/* 4. KEYFRAME ANIMATION ENGINE */
 @keyframes shimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
@@ -94,13 +90,13 @@ html, body {
   50% { transform: translateY(-20px); }
 }
 
-/* 5. BACKGROUND UTILITIES */
+
 .blueprint-dots {
   background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
-/* 6. RESPONSIVE REFINEMENTS */
+
 @media (max-width: 768px) {
   .metallic-gold-pill {
     padding: 12px 28px;
@@ -108,7 +104,7 @@ html, body {
   }
 }
 
-/* 7. SCROLLBAR DESIGN (LUXURY FINISH) */
+
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -127,7 +123,7 @@ html, body {
   color: #FFFFFF;
 }
 
-/* ... keep previous resets ... */
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -144,7 +140,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Institutional Champagne Gold Shimmer */
+
 .metallic-shimmer {
   background: linear-gradient(90deg, #8B6B18, #D4AF37, #FFFFFF, #D4AF37, #8B6B18);
   background-size: 200% auto;
@@ -179,4 +175,11 @@ html, body {
 @keyframes rotate3D {
   from { transform: rotateY(0deg); }
   to { transform: rotateY(360deg); }
+}
+nextjs-portal, 
+#nextjs-static-indicator,
+[data-nextjs-scroll-focus-boundary] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }

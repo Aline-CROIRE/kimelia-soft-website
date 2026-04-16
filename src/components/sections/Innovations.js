@@ -5,9 +5,7 @@ import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
-/* ═══════════════════════════════════════════════════════════
-   ANIMATIONS ENGINE
-   ═══════════════════════════════════════════════════════════ */
+
 
 const rotateY = keyframes`
   from { transform: rotateY(0deg); }
@@ -19,9 +17,7 @@ const shimmer = keyframes`
   100% { background-position: 200% center; }
 `;
 
-/* ═══════════════════════════════════════════════════════════
-   MAIN SECTION ARCHITECTURE
-   ═══════════════════════════════════════════════════════════ */
+
 
 const Section = styled.section`
   min-height: 100vh;
@@ -39,9 +35,7 @@ const Section = styled.section`
   text-align: center;
 `;
 
-/* ═══════════════════════════════════════════════════════════
-   HIGH-VISIBILITY 3D SYSTEM (Left, Center, Right)
-   ═══════════════════════════════════════════════════════════ */
+
 
 const LabAtmosphere = styled.div`
   position: absolute;
@@ -71,9 +65,7 @@ const MannequinForm = styled(motion.div)`
   }
 `;
 
-/* ═══════════════════════════════════════════════════════════
-   CONTENT ARCHITECTURE (Philosophy Style)
-   ═══════════════════════════════════════════════════════════ */
+
 
 const ContentWrapper = styled.div`
   position: relative;
@@ -150,9 +142,9 @@ export default function Innovations() {
 
   return (
     <Section id="innovations">
-      {/* ═══════════ THE MULTI-MANNEQUIN ATMOSPHERE ═══════════ */}
+      
       <LabAtmosphere>
-        {/* 1. LEFT FORM */}
+       
         <MannequinForm 
           style={{ width: '18vw', height: '45vh' }} 
           $opacity={0.35} $speed="45s"
@@ -162,7 +154,7 @@ export default function Innovations() {
           ))}
         </MannequinForm>
 
-        {/* 2. CENTER FORM (Behind Text) */}
+        
         <MannequinForm 
           style={{ width: '25vw', height: '70vh', position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: -1 }} 
           $opacity={0.15} $speed="30s"
@@ -172,7 +164,7 @@ export default function Innovations() {
           ))}
         </MannequinForm>
 
-        {/* 3. RIGHT FORM */}
+    
         <MannequinForm 
           style={{ width: '18vw', height: '45vh' }} 
           $opacity={0.35} $speed="60s"
@@ -183,10 +175,10 @@ export default function Innovations() {
         </MannequinForm>
       </LabAtmosphere>
 
-      {/* Central Flare Glow */}
+     
       <div style={{ position: 'absolute', width: '70vw', height: '70vw', background: 'radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%)', filter: 'blur(120px)', pointerEvents: 'none', zIndex: 2 }} />
 
-      {/* ═══════════ CONTENT ARCHITECTURE ═══════════ */}
+      
       <ContentWrapper>
         <Header>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -208,9 +200,17 @@ export default function Innovations() {
             Architecting a borderless ecosystem where visionary design meets advanced technology. We build the systems that allow local talent to reach the world stage.
           </Description>
 
-          <button className="metallic-gold-pill" style={{ padding: '22px 65px', fontSize: '0.85rem', margin: '0 auto' }}>
-            Experience the Future <ArrowUpRight size={20} style={{ marginLeft: 15 }} />
-          </button>
+          
+          <a 
+            href="https://kimelia-lux.vercel.app/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none' }}
+          >
+            <button className="metallic-gold-pill" style={{ padding: '22px 65px', fontSize: '0.85rem', margin: '0 auto', cursor: 'pointer' }}>
+              Experience the Future <ArrowUpRight size={20} style={{ marginLeft: 15 }} />
+            </button>
+          </a>
         </motion.div>
       </ContentWrapper>
     </Section>

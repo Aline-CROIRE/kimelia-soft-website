@@ -110,8 +110,8 @@ const InstitutionalDivider = styled.div`
 
 const EditorialMission = styled.p`
   font-family: var(--font-lora);
-  font-style: italic; /* Applied Italic */
-  font-size: clamp(1.2rem, 3vw, 2.2rem); /* Reduced Size */
+  font-style: italic;
+  font-size: clamp(1.2rem, 3vw, 2.2rem);
   line-height: 1.3;
   color: #000000;
   max-width: 850px;
@@ -159,7 +159,7 @@ export default function Hero() {
   ];
 
   return (
-    <HeroWrapper>
+    <HeroWrapper id="hero"> 
       <BackgroundLayer>
         {mounted && globeSystem.map((g) => (
           <GlobeContainer key={g.id} style={{ width: g.size, height: g.size, top: g.top, left: g.left, right: g.right, bottom: g.bottom }}>
@@ -199,9 +199,12 @@ export default function Hero() {
             Kimelia Soft is a technology lab focused on the future. We use AI and intentional design to create high-quality products built to solve problems and scale globally.
           </SubDescription>
 
-          <button className="metallic-gold-pill" style={{ padding: '22px 65px', fontSize: '0.85rem' }}>
-            Explore Innovations <ArrowUpRight size={22} />
-          </button>
+        
+          <a href="#innovations" style={{ textDecoration: 'none' }}>
+            <button className="metallic-gold-pill" style={{ padding: '22px 65px', fontSize: '0.85rem' }}>
+              Explore Innovations <ArrowUpRight size={22} style={{ marginLeft: 10 }} />
+            </button>
+          </a>
 
           <ServiceRow style={{ marginTop: '100px' }}>
             <ServiceItem><Globe size={20} color="#D4AF37" /> Marketplaces</ServiceItem>

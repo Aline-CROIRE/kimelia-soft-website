@@ -62,7 +62,7 @@ const Motto = styled.p`
   max-width: 700px;
 `;
 
-/* THE ARCHITECTURAL GRID */
+
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -211,7 +211,7 @@ export default function Philosophy() {
         </Grid>
       </ContentWrapper>
       
-      {/* Background Architectural Accent */}
+
       <div style={{ position: 'absolute', bottom: '5%', right: '5%', width: '300px', height: '300px', border: '1px solid rgba(212,175,55,0.1)', borderRadius: '50%', pointerEvents: 'none' }} />
     </Section>
   );

@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# KIMELIA SOFT
+**Local roots. Global standards.**
+
+Kimelia Soft is a premium technology and innovation studio headquartered in Kigali, Rwanda. We architect AI-driven digital products designed to empower local creative talent and deliver world-class user experiences.
+
+---
+
+## Executive Summary
+
+Kimelia Soft operates as a product incubator where every venture is built on three core pillars: technical excellence, premium design, and global scalability.
+
+*   **Founder:** Aline Niyonzera
+*   **Headquarters:** Kigali, Rwanda
+*   **Industry:** AI Solutions, Digital Marketplaces, Creative Infrastructure
+*   **Timeline:** Strategic Expansion 2025—2026
+
+---
+
+## Flagship Venture: Kimelia Luxe
+
+Kimelia Luxe is the studio's primary institutional product. It is an intelligent fashion marketplace that uses proprietary AI to redefine the relationship between creators and global consumers.
+
+*   **Neural Fitting:** Proprietary AI-powered Virtual Try-On technology.
+*   **Marketplace Automation:** End-to-end commerce infrastructure for designers.
+*   **Global Access:** Connecting local Rwandan artistry to international audiences.
+
+---
+
+## Technical Architecture
+
+The platform is engineered using a modern, serverless stack designed for high performance and deep aesthetic control.
+
+### Core Stack
+*   **Frontend Engine:** Next.js 15 (App Router)
+*   **Style Framework:** Styled Components
+*   **Motion System:** Framer Motion
+*   **Database:** MongoDB Atlas
+
+### Project Structure
+```
+src/
+├── app/
+│   ├── api/            
+│   └── globals.css     
+├── components/
+│   ├── navigation/     
+│   └── sections/       
+└── lib/
+    └── mongodb.js      
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+*   Node.js 18.0 or higher
+*   MongoDB Atlas Account
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Environment Configuration
+Create a .env.local file in the root directory:
+```
+MONGODB_URI=your_connection_string
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
+```bash
+npm install
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 2026 Strategic Roadmap
 
-## Learn More
+### Phase 1: Infrastructure
+*   Finalize studio identity and 3D kinetic showcase.
+*   Deploy core landing architecture.
 
-To learn more about Next.js, take a look at the following resources:
+### Phase 2: Onboarding
+*   Launch the adaptive registration system for partners and designers.
+*   Enable database-driven lead collection.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Phase 3: Global Sync
+*   Regional expansion across East Africa.
+*   Full integration of the Kimelia Luxe Virtual Try-On engine.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Contact and Collaboration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+*   **Office:** Kigali, Rwanda
+*   **Email:** hello@kimeliasoft.com
+*   **Venture Site:** https://kimelia-lux.vercel.app/
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+***
+
+**© 2026 Kimelia Soft**
+*Architecting the digital infrastructure for the next generation of African creators.*

@@ -47,6 +47,7 @@ const Item = styled.a`
 const CompactPill = styled.button`
   padding: 10px 25px;
   font-size: 0.6rem;
+  cursor: pointer;
 `;
 
 export default function Navbar() {
@@ -58,9 +59,14 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
+  const handlePartnerClick = () => {
+    window.dispatchEvent(new Event("openPartnerForm"));
+  };
+
   return (
     <Nav $scrolled={scrolled}>
-      <LogoBox>
+      <LogoBox onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
         <Image 
           src="/logo.png" 
           alt="Kimelia Soft" 
@@ -72,10 +78,14 @@ export default function Navbar() {
       </LogoBox>
       
       <LinkGroup>
-        <Item href="#innovations">Innovation</Item>
-        <Item href="#studio">Studio</Item>
-        <Item href="#vision">Vision</Item>
-        <CompactPill className="metallic-gold-pill">Partner</CompactPill>
+        <Item href="#studio">Philosophy</Item>
+        <Item href="#innovations">Innovations</Item>
+        <Item href="#ecosystem">Vision</Item>
+        
+  
+        <CompactPill onClick={handlePartnerClick} className="metallic-gold-pill">
+            Partner
+        </CompactPill>
       </LinkGroup>
 
       <div style={{ 
